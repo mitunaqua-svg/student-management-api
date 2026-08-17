@@ -26,10 +26,10 @@ A FastAPI-based REST API for managing students, with JWT authentication and role
 ## Database Configuration
 
 Set in `.env`:
-DATABASE_URL=sqlite:///./student_management.db
-SECRET_KEY=<a long random string>
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
+  DATABASE_URL=sqlite:///./student_management.db
+  SECRET_KEY=<a long random string>
+  ALGORITHM=HS256
+  ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 Generate a secret key with:
     python -c "import secrets; print(secrets.token_hex(32))"
