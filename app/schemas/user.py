@@ -12,6 +12,17 @@ class UserCreate(UserBase):
     password: str
     role: RoleEnum = RoleEnum.STUDENT
 
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "John Doe",
+                "email": "john@example.com",
+                "password": "strongpassword123",
+                "role": "STUDENT",
+            }
+        }
+    )
+
 
 class UserOut(UserBase):
     model_config = ConfigDict(from_attributes=True)

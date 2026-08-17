@@ -11,6 +11,18 @@ class StudentBase(BaseModel):
 class StudentCreate(StudentBase):
     owner_id: int | None = None
 
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "Jane Smith",
+                "email": "jane@example.com",
+                "course": "Computer Science",
+                "year": 2,
+                "owner_id": None,
+            }
+        }
+    )
+
 
 class StudentUpdate(BaseModel):
     name: str | None = None

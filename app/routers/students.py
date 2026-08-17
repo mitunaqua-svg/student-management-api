@@ -4,22 +4,20 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.student import StudentCreate, StudentUpdate, StudentOut
 from app.services import student_service
-from app.dependencies.auth import get_current_user
-from app.models.user import User
 from app.dependencies.auth import get_current_user, require_role
 from app.models.user import User, RoleEnum
 
 router = APIRouter(prefix="/students", tags=["Students"])
 
 
-@router.get("/", response_model=list[StudentOut])
+@router.get("/", response_model=list[StudentOut], summary="List all students")
 def list_students(
     db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     return student_service.get_all_students(db)
 
 
-@router.get("/{student_id}", response_model=StudentOut)
+@router.get("/{student_id}", response_model=StudentOut, summary="Get a student by ID")
 def get_student(
     student_id: int,
     db: Session = Depends(get_db),
@@ -31,7 +29,12 @@ def get_student(
     return student
 
 
-@router.post("/", response_model=StudentOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/",
+    response_model=StudentOut,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create a student (ADMIN only)",
+)
 def create_student(
     student_in: StudentCreate,
     db: Session = Depends(get_db),
@@ -40,7 +43,7 @@ def create_student(
     return student_service.create_student(db, student_in)
 
 
-@router.put("/{student_id}", response_model=StudentOut)
+@router.put("/{student_id}", response_model=StudentOut, summary="Update a student")
 def update_student(
     student_id: int,
     student_in: StudentUpdate,
@@ -60,7 +63,11 @@ def update_student(
     return student_service.update_student(db, student, student_in)
 
 
-@router.delete("/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{student_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a student (ADMIN only)",
+)
 def delete_student(
     student_id: int,
     db: Session = Depends(get_db),
